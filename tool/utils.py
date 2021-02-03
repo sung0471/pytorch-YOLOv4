@@ -96,7 +96,7 @@ def nms_cpu(boxes, confs, nms_thresh=0.5, min_mode=False):
 
 
 
-def plot_boxes_cv2(img, boxes, savename=None, class_names=None, color=None):
+def plot_boxes_cv2(img, boxes, savename=None, class_names=None, color=None, out=None):
     import cv2
     img = np.copy(img)
     colors = np.array([[1, 0, 1], [0, 0, 1], [0, 1, 1], [0, 1, 0], [1, 1, 0], [1, 0, 0]], dtype=np.float32)
@@ -138,6 +138,8 @@ def plot_boxes_cv2(img, boxes, savename=None, class_names=None, color=None):
     if savename:
         print("save plot results to %s" % savename)
         cv2.imwrite(savename, img)
+    if out:
+        out.write(img)
     return img
 
 
@@ -203,8 +205,9 @@ def post_processing(img, conf_thresh, nms_thresh, output):
 
         bboxes = []
         # nms for each class
-        for j in range(num_classes):
-
+        # for j in range(num_classes):
+        # num_classes -> 1로 변경 (사람만 하게끔)
+        for j in range(1):
             cls_argwhere = l_max_id == j
             ll_box_array = l_box_array[cls_argwhere, :]
             ll_max_conf = l_max_conf[cls_argwhere]
